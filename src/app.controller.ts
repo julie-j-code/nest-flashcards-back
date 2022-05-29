@@ -1,23 +1,12 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
 
-import { Card } from 'src/interfaces/card.interface';
-import { CardsService } from './cards/cards.service';
-import { SaveAnswersDto } from './dto/save-answers.dto';
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
 
-@Controller('cards')
-export class CardsController {
-    constructor(private cardsService:CardsService) { }
-    
-    @Get()
-    async getCards(): Promise<Card[]> {
-        const cards = await this.cardsService.getCards();
-        return cards;
-    }
-
-    @Post()
-    async saveAnswers(@Body() saveAnswersDto: SaveAnswersDto) {
-        const result = await this.cardsService.saveAnswers(saveAnswersDto);
-        console.log('saveAnswers result', result);
-        return result;
-    }
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
 }
